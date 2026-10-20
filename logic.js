@@ -1,60 +1,70 @@
-function sum(a, b){
-    return (a + b);
+function sum(a, b) {
+    return a + b;
 }
 
-function subtract(a, b){
-    return (a - b);
+function subtract(a, b) {
+    return a - b;
 }
 
-function multiply(a, b){
-    return (a * b);
+function multiply(a, b) {
+    return a * b;
 }
 
-function divide(a, b){
-    return (a / b);
+function divide(a, b) {
+    return a / b;
 }
 
-function operate(operador, n1, n2){
-    if (operador === "+"){
+function operate(op, n1, n2) {
+    if (op === "+") {
         return sum(n1, n2);
     }
-    else if (operador === "-"){
+    else if (op === "-") {
         return subtract(n1, n2);
     }
-    else if (operador === "*"){
+    else if (op === "*") {
         return multiply(n1, n2);
     }
-    else if (operador === "/"){
+    else if (op === "/") {
         return divide(n1, n2);
     }
     else {
-        return alert("Algo has metido mal")
+        return "Error";
     }
 }
 
-let numbers = document.querySelectorAll(".number");
+const numbers = document.querySelectorAll(".number");
+const operators = document.querySelectorAll(".operator");
+const resultOperator = document.querySelector(".result");
+const resultContainer = document.querySelector("#result_container");
+
 let val1 = "";
 let val2 = "";
 let operator = "";
-let operators = document.querySelectorAll('.operator');
-const resultContainer = document.querySelector('#result_container');
+
+function updateDisplay() {
+    resultContainer.textContent = val1 + operator + val2;
+}
 
 numbers.forEach(element => {
-    element.addEventListener("click", function (){
-        if (!operator){
+    element.addEventListener("click", function () {
+        if (!operator) {
             val1 = val1 + element.textContent;
-            resultContainer.textContent = val1;
         }
         else {
             val2 = val2 + element.textContent;
-            resultContainer.textContent = val1 + operator + val2;
         }
-    })
+        updateDisplay();
+    });
 });
 
 operators.forEach(element => {
-    element.addEventListener("click", function(){
+    element.addEventListener("click", function () {
         operator = element.textContent;
-        resultContainer.textContent += operator; 
-    })
-})
+        updateDisplay();
+    });
+});
+
+resultOperator.addEventListener("click", function () {
+    const result = operate(operator, Number(val1), Number(val2));
+    resultContainer.textContent = result;
+});
