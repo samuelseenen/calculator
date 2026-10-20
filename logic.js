@@ -35,3 +35,16 @@ function operate(operador, n1, n2){
         return alert("Algo has metido mal")
     }
 }
+
+let numbers = document.querySelectorAll(".number");
+let val1 = "";
+const resultContainer = document.querySelector('#result_container');
+
+numbers.forEach(element => {
+    element.addEventListener("click", function (){
+        val1 = val1 + element.textContent;
+        resultContainer.textContent = val1;
+        console.log(val1);
+    })
+});
+
