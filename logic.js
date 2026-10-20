@@ -1,7 +1,3 @@
-let n1;
-let n2;
-let operador;
-
 function sum(a, b){
     return (a + b);
 }
@@ -38,13 +34,27 @@ function operate(operador, n1, n2){
 
 let numbers = document.querySelectorAll(".number");
 let val1 = "";
+let val2 = "";
+let operator = "";
+let operators = document.querySelectorAll('.operator');
 const resultContainer = document.querySelector('#result_container');
 
 numbers.forEach(element => {
     element.addEventListener("click", function (){
-        val1 = val1 + element.textContent;
-        resultContainer.textContent = val1;
-        console.log(val1);
+        if (!operator){
+            val1 = val1 + element.textContent;
+            resultContainer.textContent = val1;
+        }
+        else {
+            val2 = val2 + element.textContent;
+            resultContainer.textContent = val1 + operator + val2;
+        }
     })
 });
 
+operators.forEach(element => {
+    element.addEventListener("click", function(){
+        operator = element.textContent;
+        resultContainer.textContent += operator; 
+    })
+})
