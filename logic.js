@@ -43,6 +43,7 @@ const resultOperator = document.querySelector(".result");
 const emptyButton = document.querySelector(".del");
 const resultContainer = document.querySelector("#result_container");
 const backspaceButton = document.querySelector(".backspace");
+const decimalButton = document.querySelector(".decimal");
 
 let val1 = "";
 let val2 = "";
@@ -133,6 +134,25 @@ backspaceButton.addEventListener("click", function () {
     }
     else {
         val1 = val1.slice(0, -1);
+    }
+    updateDisplay();
+});
+
+decimalButton.addEventListener("click", function () {
+    if (hasResult) {
+        clear();
+    }
+    if (!operator) {
+        if (val1.includes(".")) {
+            return;
+        }
+        val1 = (val1 || "0") + ".";
+    }
+    else {
+        if (val2.includes(".")) {
+            return;
+        }
+        val2 = (val2 || "0") + ".";
     }
     updateDisplay();
 });
