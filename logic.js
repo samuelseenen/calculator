@@ -11,10 +11,10 @@ function multiply(a, b) {
 }
 
 function divide(a, b) {
-    if (b === 0){
+    if (b === 0) {
         return "Casi puedes";
     }
-    else{
+    else {
         return a / b;
     }
 }
@@ -42,7 +42,7 @@ const operators = document.querySelectorAll(".operator");
 const resultOperator = document.querySelector(".result");
 const emptyButton = document.querySelector(".del");
 const resultContainer = document.querySelector("#result_container");
-
+const backspaceButton = document.querySelector(".backspace");
 
 let val1 = "";
 let val2 = "";
@@ -53,25 +53,29 @@ function updateDisplay() {
     resultContainer.textContent = val1 + operator + val2;
 }
 
-function clear(){
+function clear() {
     val1 = "";
     val2 = "";
     operator = "";
     hasResult = false;
 }
 
-function calculate(){
-    let result = operate(operator, Number(val1), Number(val2));
-    if (typeof result === "number") {
-        result = Math.round(result * 100) / 100;
+function calculate() {
+    const result = operate(operator, Number(val1), Number(val2));
+    if (typeof result !== "number") {
+        clear();
+        hasResult = true;
+        resultContainer.textContent = result;
+        return false;
     }
-    val1 = String(result);
+    val1 = String(Math.round(result * 100) / 100);
     val2 = "";
+    return true;
 }
 
 numbers.forEach(element => {
     element.addEventListener("click", function () {
-        if (hasResult){
+        if (hasResult) {
             clear();
         }
         if (!operator) {
@@ -86,8 +90,13 @@ numbers.forEach(element => {
 
 operators.forEach(element => {
     element.addEventListener("click", function () {
-        if (operator && val1 && val2){
-            calculate();
+        if (!val1) {
+            return;
+        }
+        if (operator && val2) {
+            if (!calculate()) {
+                return;
+            }
         }
         operator = element.textContent;
         hasResult = false;
@@ -99,13 +108,31 @@ resultOperator.addEventListener("click", function () {
     if (!operator || !val1 || !val2) {
         return;
     }
-    calculate();
+    if (!calculate()) {
+        return;
+    }
     operator = "";
     hasResult = true;
     updateDisplay();
 });
 
-emptyButton.addEventListener("click", function(){
+emptyButton.addEventListener("click", function () {
     clear();
+    updateDisplay();
+});
+
+backspaceButton.addEventListener("click", function () {
+    if (hasResult) {
+        return;
+    }
+    if (val2) {
+        val2 = val2.slice(0, -1);
+    }
+    else if (operator) {
+        operator = "";
+    }
+    else {
+        val1 = val1.slice(0, -1);
+    }
     updateDisplay();
 });
