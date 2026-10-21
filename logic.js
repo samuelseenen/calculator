@@ -47,13 +47,24 @@ const resultContainer = document.querySelector("#result_container");
 let val1 = "";
 let val2 = "";
 let operator = "";
+let hasResult = false;
 
 function updateDisplay() {
     resultContainer.textContent = val1 + operator + val2;
 }
 
+function clear(){
+    val1 = "";
+    val2 = "";
+    operator = "";
+    hasResult = false;
+}
+
 numbers.forEach(element => {
     element.addEventListener("click", function () {
+        if (hasResult){
+            clear();
+        }
         if (!operator) {
             val1 = val1 + element.textContent;
         }
@@ -73,18 +84,17 @@ operators.forEach(element => {
 
 resultOperator.addEventListener("click", function () {
     if (!operator || !val1 || !val2){
-        return
+        return;
     }
     let result = operate(operator, Number(val1), Number(val2));
     if (typeof result === "number") {
         result = Math.round(result * 100) / 100;
     }
     resultContainer.textContent = result;
+    hasResult = true;
 });
 
 emptyButton.addEventListener("click", function(){
-    val1 = "";
-    val2 = "";
-    operator = "";
+    clear();
     updateDisplay();
 });
