@@ -44,6 +44,7 @@ const emptyButton = document.querySelector(".del");
 const resultContainer = document.querySelector("#result_container");
 const backspaceButton = document.querySelector(".backspace");
 const decimalButton = document.querySelector(".decimal");
+const allButtons = Array.from(document.querySelectorAll(".btn"));
 
 let val1 = "";
 let val2 = "";
@@ -155,4 +156,25 @@ decimalButton.addEventListener("click", function () {
         val2 = (val2 || "0") + ".";
     }
     updateDisplay();
+});
+
+document.addEventListener("keydown", function (event) {
+    let button;
+    if (event.key === "Enter" || event.key === "=") {
+        button = resultOperator;
+    }
+    else if (event.key === "Backspace") {
+        button = backspaceButton;
+    }
+    else if (event.key === "Escape") {
+        button = emptyButton;
+    }
+    else {
+        button = allButtons.find(b => b.textContent === event.key);
+    }
+    if (!button) {
+        return;
+    }
+    event.preventDefault();
+    button.click();
 });
