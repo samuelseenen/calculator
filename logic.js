@@ -35,7 +35,9 @@ function operate(op, n1, n2) {
 const numbers = document.querySelectorAll(".number");
 const operators = document.querySelectorAll(".operator");
 const resultOperator = document.querySelector(".result");
+const emptyButton = document.querySelector(".del");
 const resultContainer = document.querySelector("#result_container");
+
 
 let val1 = "";
 let val2 = "";
@@ -67,4 +69,11 @@ operators.forEach(element => {
 resultOperator.addEventListener("click", function () {
     const result = operate(operator, Number(val1), Number(val2));
     resultContainer.textContent = result;
+});
+
+emptyButton.addEventListener("click", function(){
+    val1 = "";
+    val2 = "";
+    operator = "";
+    updateDisplay();
 });
