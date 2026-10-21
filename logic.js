@@ -12,7 +12,7 @@ function multiply(a, b) {
 
 function divide(a, b) {
     if (b === 0){
-        return "Casi puedes"
+        return "Casi puedes";
     }
     else{
         return a / b;
@@ -72,7 +72,13 @@ operators.forEach(element => {
 });
 
 resultOperator.addEventListener("click", function () {
-    const result = operate(operator, Number(val1), Number(val2));
+    if (!operator || !val1 || !val2){
+        return
+    }
+    let result = operate(operator, Number(val1), Number(val2));
+    if (typeof result === "number") {
+        result = Math.round(result * 100) / 100;
+    }
     resultContainer.textContent = result;
 });
 
