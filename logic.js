@@ -60,6 +60,15 @@ function clear(){
     hasResult = false;
 }
 
+function calculate(){
+    let result = operate(operator, Number(val1), Number(val2));
+    if (typeof result === "number") {
+        result = Math.round(result * 100) / 100;
+    }
+    val1 = String(result);
+    val2 = "";
+}
+
 numbers.forEach(element => {
     element.addEventListener("click", function () {
         if (hasResult){
@@ -77,21 +86,23 @@ numbers.forEach(element => {
 
 operators.forEach(element => {
     element.addEventListener("click", function () {
+        if (operator && val1 && val2){
+            calculate();
+        }
         operator = element.textContent;
+        hasResult = false;
         updateDisplay();
     });
 });
 
 resultOperator.addEventListener("click", function () {
-    if (!operator || !val1 || !val2){
+    if (!operator || !val1 || !val2) {
         return;
     }
-    let result = operate(operator, Number(val1), Number(val2));
-    if (typeof result === "number") {
-        result = Math.round(result * 100) / 100;
-    }
-    resultContainer.textContent = result;
+    calculate();
+    operator = "";
     hasResult = true;
+    updateDisplay();
 });
 
 emptyButton.addEventListener("click", function(){
